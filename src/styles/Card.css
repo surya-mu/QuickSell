@@ -1,0 +1,102 @@
+.card{
+    /* border: 0.5px solid grey; */
+    box-shadow: 0 0 2px 0.4px rgba(0, 0, 0, 0.2);
+    justify-items: start !important;
+    padding-left:13px;
+    background-color: white;
+    /* width:120%;   */
+    /* margin: 0px 7.7px; */
+    border-radius: 5px;
+    height: 18%;
+    /* border-spacing: 100px; */
+    width: 100% !important;
+    /* padding-top: 5px; */
+    /* padding-left: 15px; */
+    /* gap: 2px !important; */
+    /* padding-bottom: 10px !important; */
+    margin-bottom: 20px;
+}
+
+
+
+.card-header{
+    opacity: 0.5;
+    font-size: 13px;
+    font-weight:500;
+    /* color: #96979a; */
+    display: inline !important;
+    /* margin-bottom:5px !important; */
+    /* padding-right:5px; */
+    padding-left: 2px;
+    margin-top: 12.5px;
+    text-wrap: nowrap;
+}
+
+.card-img{
+    display: inline !important;
+    /* align-self:flex-end !important;
+     */
+    /* text-align: end !important; */
+    /* margin-left:20%; */
+    margin-left: 194px;
+    /* padding-top: 10px; */
+    /* margin-top:6px; */
+    margin-top: -3px;
+    width: 20px;    
+    height: 20px;
+    display: inline !important;
+    align-items: center !important;
+    object-fit: contain !important;
+    
+}
+.same-line{
+    object-fit: contain !important;
+    overflow: hidden !important;
+    /* height: 100px; */
+    display: flex;
+    padding: 0px !important;
+    margin-top: -10px;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.card-title{
+    padding: 0px;
+    margin-top: -2px !important;
+    font-size:13px;
+    font-weight: 550;
+    opacity: 0.98;
+    /* word-spacing: 1.5px; */
+    /* scale: 0.999; */
+
+
+}
+
+
+.card-symbol{
+    opacity: 0.66 ;
+}
+
+.card-tag img{
+    height: 9px;
+    width: 9px;
+    display: inline !important;
+    filter:brightness(0.7)
+}
+
+.card-tag{
+    font-size: 12px;
+    font-weight:500;
+    opacity: 0.62;
+    /* padding: 1px 40px; */
+    margin-left: 20px;
+    box-shadow: 0 0 0.5px 0.4px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    padding: 1.5px 5px;
+}
+
+
+.card-bottom{
+    display: inline-flex;
+    align-items: center !important;
+}
