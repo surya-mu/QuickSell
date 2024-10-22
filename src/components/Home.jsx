@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
-// import ScrollToTop from './ScrollToTop';
 import '../styles/Home.css';
 import options from './assets/Display.svg';
 import down from './assets/down.svg';
@@ -19,24 +18,21 @@ import profile from './assets/profile.png';
 function Home() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [isGroupingVisible, setIsGroupingVisible] = useState(false);
-  const [isOrderingVisible, setIsOrderingVisible] = useState(false); // New state for ordering visibility
-  const [selectedGrouping, setSelectedGrouping] = useState('Status');
-  const [selectedOrder, setSelectedOrder] = useState('Title'); // State for ordering
+
+
+
+  const [isOrderingVisible, setIsOrderingVisible] = useState(false);
+
+  const [selectedGrouping, setSelectedGrouping] = useState(() => localStorage.getItem('selectedGrouping') || 'Status');
+  const [selectedOrder, setSelectedOrder] = useState(() => localStorage.getItem('selectedOrder') || 'Title');
+  
   const [tickets, setTickets] = useState([]);
   const [users, setUsers] = useState([]);
-    const toggleDrop = (e) => {
-    e.stopPropagation(); // Prevent the event from bubbling up to parent elements
-    setIsDropdownVisible(!isDropdownVisible);
-  };
 
-  const closeDrop = () => {
-    if (isDropdownVisible) {
-      setIsDropdownVisible(false);
-    }
-  };
+ 
+
 
   useEffect(() => {
-    // Fetch data from the API
     fetch('https://api.quicksell.co/v1/internal/frontend-assignment')
       .then(response => response.json())
       .then(data => {
@@ -46,17 +42,20 @@ function Home() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('selectedGrouping', selectedGrouping);
+  }, [selectedGrouping]);
+
+  useEffect(() => {
+    localStorage.setItem('selectedOrder', selectedOrder);
+  }, [selectedOrder]);
+
   const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
+
+
   const toggleGrouping = () => setIsGroupingVisible(!isGroupingVisible);
   const toggleOrdering = () => setIsOrderingVisible(!isOrderingVisible); 
 
-  
-//   const findUserName = (userId) => {
-//     const user = users.find(user => user.id === userId);
-//     return user ? user.name : 'could not find user name for this record ';
-//   };
-
-  
   const groupTickets = (groupingType) => {
     if (groupingType === 'Status') {
       return {
@@ -92,9 +91,10 @@ function Home() {
     return ticketsToOrder;
   };
 
+  const closeDrop = ()=> (setIsDropdownVisible(!isDropdownVisible))
+
   const groupedTickets = groupTickets(selectedGrouping);
 
-  
   const renderCards = (tickets) => {
     const orderedTickets = orderTickets(tickets); 
     return orderedTickets.map((ticket) => (
@@ -171,7 +171,7 @@ function Home() {
 
   return (
     <div className="main" onClick={closeDrop}>
-      <div className="options" onClick={e=>e.stopPropagation()}>
+      <div className="options" onClick={e=>{e.stopPropagation()}}>
         <a onClick={toggleDropdown} className={isDropdownVisible ? 'open' : ''}>
           <img src={options} alt="Display" /> &nbsp;Display
           <span className="drop">
@@ -188,14 +188,13 @@ function Home() {
               </div>
               {isGroupingVisible && (
                 <div className="dropdown-submenu">
-                  <span onClick={() => {setSelectedGrouping('Status'); setIsGroupingVisible(false);}}>Status</span>
-                  <span onClick={() => {setSelectedGrouping('Priority'); setIsGroupingVisible(false);}}>Priority</span>
-                  <span onClick={() => {setSelectedGrouping('Users'); setIsGroupingVisible(false);}}>Users</span>
+                  <span onClick={() => { setSelectedGrouping('Status'); setIsGroupingVisible(false); }}>Status</span>
+                  <span onClick={() => { setSelectedGrouping('Priority'); setIsGroupingVisible(false); }}>Priority</span>
+                  <span onClick={() => { setSelectedGrouping('Users'); setIsGroupingVisible(false); }}>Users</span>
                 </div>
               )}
             </div>
 
-        
             <div className="dropdown-section">
               <p>Ordering</p>
               <div className="dropdown-box" onClick={toggleOrdering}>
@@ -203,8 +202,8 @@ function Home() {
               </div>
               {isOrderingVisible && (
                 <div className="dropdown-submenu">
-                  <span onClick={() => {setSelectedOrder('Title'); setIsOrderingVisible(false);}}>Title</span>
-                  <span onClick={() => {setSelectedOrder('Priority'); setIsOrderingVisible(false);}}>Priority</span>
+                  <span onClick={() => { setSelectedOrder('Title'); setIsOrderingVisible(false); }}>Title</span>
+                  <span onClick={() => { setSelectedOrder('Priority'); setIsOrderingVisible(false); }}>Priority</span>
                 </div>
               )}
             </div>
@@ -223,31 +222,25 @@ function Home() {
             <div className="col-2">{renderCards(groupedTickets.todo)}</div>
             <div className="col-3">{renderCards(groupedTickets.inProgress)}</div>
             <div className="col-4">{renderCards(groupedTickets.done)}</div>
-
-
             <div className="col-5">{renderCards(groupedTickets.cancelled)}</div>
           </>
         )}
-
         {selectedGrouping === 'Priority' && (
           <>
             <div className="col-1">{renderCards(groupedTickets.urgentPriority)}</div>
             <div className="col-2">{renderCards(groupedTickets.highPriority)}</div>
-
             <div className="col-3">{renderCards(groupedTickets.mediumPriority)}</div>
             <div className="col-4">{renderCards(groupedTickets.lowPriority)}</div>
             <div className="col-5">{renderCards(groupedTickets.noPriority)}</div>
           </>
         )}
-
         {selectedGrouping === 'Users' && Object.keys(groupedTickets).map((user, index) => (
           <div className={`col-${index + 1}`} key={user}>
             {renderCards(groupedTickets[user])}
           </div>
         ))}
       </div>
-      <div className="footer" style={{fontSize:"12px"}}>Created by Surya M.U / musurya2014@gmail.com</div>
-      {/* <ScrollToTop/> */}
+      <div className="footer" style={{fontSize:'12px'}}>Created by Surya M.U / musurya2014@gmail.com</div>
     </div>
   );
 }
